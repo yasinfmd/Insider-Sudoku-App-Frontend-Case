@@ -36,7 +36,12 @@ git clone https://github.com/yasinfmd/sudoku_app.git
 cd sudoku_app
 ```
 
-### 3.  Install Dependencies and Start the Project
+### 3. Start the Docker Services
+```bash
+docker-compose up --build
+```
+
+### 4. Or Install Dependencies and Start the Project
 
 **For Backend:**
 ```bash
@@ -52,10 +57,7 @@ npm install
 npm run dev
 ```
 
-### 4.  Or Start the Docker Services
-```bash
-docker-compose up --build
-```
+
 
 ### 5. Access the Application
 - **Frontend (Vue):** [http://localhost:5173](http://localhost:5173)
