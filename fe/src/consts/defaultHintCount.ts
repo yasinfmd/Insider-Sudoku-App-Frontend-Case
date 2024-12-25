@@ -1,0 +1,1 @@
+export const DEFAULT_HINT_COUNT=10

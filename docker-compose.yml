@@ -1,0 +1,47 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: sudoku_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+  api:
+    image: node:latest
+    container_name: sudoku_api
+    working_dir: /usr/src/app
+    volumes:
+      - ./be:/usr/src/app
+    ports:
+      - "3030:3030"
+    command: >
+      sh -c "npm install && npm run build && npm start"
+    depends_on:
+      - mongodb
+    environment:
+      PORT: 3030
+      MONGO_URI: mongodb://admin:password@mongodb:27017/sudoku_db?authSource=admin
+    restart: always
+
+  fe:
+    image: node:latest
+    container_name: sudoku_fe
+    working_dir: /usr/src/app
+    volumes:
+      - ./fe:/usr/src/app
+    ports:
+      - "5173:5173"
+    command: >
+      sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    depends_on:
+      - api
+    environment:
+      VITE_API_URL: http://localhost:3030
+    restart: always
+
+volumes:
+  mongo_data:
